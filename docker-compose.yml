@@ -4,6 +4,6 @@ services:
   rule-validation-api:
     image: rule-validation-api
     ports:
-      - "5000:5000"
+      - "5000:5001"
     volumes:
       - ./rule-validation-api/db_data:/app/data
