@@ -28,6 +28,16 @@ app.register_blueprint(swaggerui_blueprint)
 
 with app.app_context():
     db.create_all()
+    # Check if the Rule table is empty
+    if Rule.query.count() == 0:
+        # Add some default rules
+        default_rules = [
+            Rule(name='First Law', description='A robot may not injure a human being', condition='always', action='protect', is_active=False),
+            Rule(name='Second Law', description='A robot must obey the orders given it by human beings except where such orders would conflict with the First Law', condition='if ordered', action='obey', is_active=False),
+            Rule(name='First Law Modified', description='A robot may not injure a human being or, through inaction, allow a human being to come to harm', condition='always', action='protect', is_active=True)
+        ]
+        db.session.add_all(default_rules)
+        db.session.commit()
 
 @app.route('/rules', methods=['GET', 'POST'])
 def rules() -> Tuple[Any, int]:
